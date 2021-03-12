@@ -6,19 +6,11 @@ const GRAVITY: f64 = 9.8;
 fn main() {
     println!("projectile");
 
-    //let x: i32 = 0;
-    //let y: i32 = 0;
+    println!("input lanuch speed:");
+    let launch_speed: f64 = input_parameter();
 
-    //println!("input your position x:");
-    //x = input_parameter();
-
-    //println!("input your position y:");
-    //y = input_parameter();
-
-    //println!("x, y: {} {}", x, y);
-
-    let launch_speed = 30.0;
-    let launch_angle = 25.0;
+    println!("input launch angle:");
+    let launch_angle: f64 = input_parameter();
 
     let launch_angle_rad = deg_to_rad(launch_angle);
     let sin_angle = launch_angle_rad.sin();
@@ -57,6 +49,20 @@ fn main() {
     }
 }
 
+fn input_parameter() -> f64{
+  let n: f64 = std::io::stdin()
+    .lock()
+    .lines()
+    .next()
+    .expect("stdin should be available")
+    .expect("couldn't read from stdin")
+    .trim()
+    .parse()
+    .expect("input was not an float");
+
+  n
+}
+
 fn deg_to_rad(deg: f64) -> f64{
     let rad = deg * consts::PI/180.0;
 
@@ -65,7 +71,6 @@ fn deg_to_rad(deg: f64) -> f64{
 
 fn time_of_flight(launch_speed: f64, sin_angle: f64) -> f64{  // projectile time flight
     let time = (launch_speed * sin_angle + ((launch_speed * sin_angle).powi(2) + 2.0 * GRAVITY).sqrt()) / GRAVITY;
-    //let t = (2.0 * v0 / g) * ang_rad.sin();
 
     time
 }
@@ -80,19 +85,4 @@ fn range(launch_speed: f64, sin_angle: f64, cos_angle: f64) -> f64{
     let distance = (launch_speed.powi(2) / GRAVITY) * sin_angle * cos_angle * 2.0;
 
     distance
-}
-
-
-fn input_parameter() -> i32{
-    let n: i32= std::io::stdin()
-        .lock()
-        .lines()
-        .next()
-        .expect("stdin should be available")
-        .expect("couldn't read from stdin")
-        .trim()
-        .parse()
-        .expect("input was not an integer");
-
-    n
 }

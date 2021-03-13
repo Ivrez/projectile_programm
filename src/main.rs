@@ -1,16 +1,18 @@
 use std::io::BufRead;
-use std::f64::consts;
+use std::f32::consts;
 
-const GRAVITY: f64 = 9.8;
+const GRAVITY: f32 = 9.8;
+
+mod lib;
 
 fn main() {
     println!("projectile");
 
     println!("input lanuch speed:");
-    let launch_speed: f64 = input_parameter();
+    let launch_speed: f32 = input_parameter();
 
     println!("input launch angle:");
-    let launch_angle: f64 = input_parameter();
+    let launch_angle: f32 = input_parameter();
 
     let launch_angle_rad = deg_to_rad(launch_angle);
     let sin_angle = launch_angle_rad.sin();
@@ -32,25 +34,30 @@ fn main() {
 
     let mut x;
     let mut y;
+    let mut coordinates = Vec::new();
+    let mut n;
+    coordinates.push((0f32, 0f32));
 
-    for i in 1..=10 {
 
-        let mut n = i as f64;
+    for i in 1..=20 {
 
-        n = t / 100.0 * (n * 10.0);
+        n = t / 200.0 * (i as f32 * 10.0);
 
         x = n * launch_speed * cos_angle;
         y = n * launch_speed * sin_angle - ((0.5 * GRAVITY) * n.powi(2));
 
-        println!("xy{}: {} {}", i, x, y);
-        //println!("final x{}: {}", i, x);
-        //println!("final y{}: {}", i, y);
+        coordinates.push((x, y));
 
     }
+    coordinates.clone().into_iter().for_each(|it| {
+            println!("{:#?}", it);
+    });
+
+    lib::draw_graphics(coordinates, d, h_max);
 }
 
-fn input_parameter() -> f64{
-  let n: f64 = std::io::stdin()
+fn input_parameter() -> f32{
+  let n: f32 = std::io::stdin()
     .lock()
     .lines()
     .next()
@@ -63,25 +70,25 @@ fn input_parameter() -> f64{
   n
 }
 
-fn deg_to_rad(deg: f64) -> f64{
+fn deg_to_rad(deg: f32) -> f32{
     let rad = deg * consts::PI/180.0;
 
     rad
 }
 
-fn time_of_flight(launch_speed: f64, sin_angle: f64) -> f64{  // projectile time flight
+fn time_of_flight(launch_speed: f32, sin_angle: f32) -> f32{  // projectile time flight
     let time = (launch_speed * sin_angle + ((launch_speed * sin_angle).powi(2) + 2.0 * GRAVITY).sqrt()) / GRAVITY;
 
     time
 }
 
-fn max_height(launch_speed: f64, sin_angle: f64) -> f64{
+fn max_height(launch_speed: f32, sin_angle: f32) -> f32{
     let height = launch_speed.powi(2) * sin_angle.powi(2) / (2.0 * GRAVITY);
 
     height
 }
 
-fn range(launch_speed: f64, sin_angle: f64, cos_angle: f64) -> f64{
+fn range(launch_speed: f32, sin_angle: f32, cos_angle: f32) -> f32{
     let distance = (launch_speed.powi(2) / GRAVITY) * sin_angle * cos_angle * 2.0;
 
     distance

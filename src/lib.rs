@@ -1,4 +1,5 @@
 use plotters::prelude::*;
+use chrono::prelude::*;
 
 pub fn draw_graphics(coordinates: Vec<(f32, f32)>, length: f32, height: f32) -> Result<(), Box<dyn std::error::Error>> {
     let root = BitMapBackend::new("/Users/ivrez/sandbox/rust/projectile_programm/graph.png", (1024, 768)).into_drawing_area();
@@ -22,9 +23,11 @@ pub fn draw_graphics(coordinates: Vec<(f32, f32)>, length: f32, height: f32) -> 
         max_y = 100f32;
     }
 
+    let datetime_now = Utc::now().to_string();
+
     let mut chart = ChartBuilder::on(&root)
         // Set the caption of the chart
-        .caption("now", ("sans-serif", 30).into_font())
+        .caption(datetime_now, ("sans-serif", 30).into_font())
         // Set the size of the label region
         .x_label_area_size(40)
         .y_label_area_size(40)

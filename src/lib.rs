@@ -2,7 +2,7 @@ use plotters::prelude::*;
 use chrono::prelude::*;
 
 pub fn draw_graphics(coordinates: Vec<(f32, f32)>, length: f32, height: f32) -> Result<(), Box<dyn std::error::Error>> {
-    let root = BitMapBackend::new("/Users/ivrez/sandbox/rust/projectile_programm/graph.png", (1024, 768)).into_drawing_area();
+    let root = BitMapBackend::new("graph.png", (1024, 768)).into_drawing_area();
 
     root.fill(&WHITE)?;
 
@@ -10,6 +10,7 @@ pub fn draw_graphics(coordinates: Vec<(f32, f32)>, length: f32, height: f32) -> 
     let max_x;
     let max_y;
 
+    // can be changed for centering xy Cartesian coordinates
     if length < 0f32 {
         min_x = length - 10f32;
         max_x = 10f32;

@@ -3,7 +3,7 @@ use std::f32::consts;
 
 const GRAVITY: f32 = 9.8;
 
-mod lib;
+mod draw;
 
 fn main() {
     println!("projectile");
@@ -32,28 +32,27 @@ fn main() {
     println!("h_max: {}", h_max);
     println!("d: {}", d);
 
-    let mut x;
-    let mut y;
     let mut coordinates = Vec::new();
-    let mut n;
     coordinates.push((0f32, 0f32));
 
+    let mut x;
+    let mut y;
+    let mut n;
 
     for i in 1..=20 {
 
         n = t / 200.0 * (i as f32 * 10.0);
-
         x = n * launch_speed * cos_angle;
         y = n * launch_speed * sin_angle - ((0.5 * GRAVITY) * n.powi(2));
 
         coordinates.push((x, y));
-
     }
+
     coordinates.clone().into_iter().for_each(|it| {
             println!("{:#?}", it);
     });
 
-    lib::draw_graphics(coordinates, d, h_max);
+    draw::draw_graphics(coordinates, d, h_max).map_err(|err| println!("{:?}", err)).ok();
 }
 
 fn input_parameter() -> f32{

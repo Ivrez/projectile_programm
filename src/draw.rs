@@ -10,18 +10,20 @@ pub fn draw_graphics(coordinates: Vec<(f32, f32)>, length: f32, height: f32) -> 
     let max_x;
     let max_y;
 
-    // can be changed for centering xy Cartesian coordinates
+    // can be changed for centering/or not xy Cartesian coordinates
     if length < 0f32 {
-        min_x = length - 10f32;
-        max_x = 10f32;
-        //max_y = height + 10f32;
-        max_y = 100f32;
+        //min_x = length - height * 0.10;
+        min_x = -1000f32;
+        max_x = height * -1f32 * 0.10;
+        max_y = 600f32;
+        //max_y = height + height * 0.10;
     }
     else {
         min_x = 0f32;
-        max_x = length + 10f32;
-        //max_y = height + 10f32;
-        max_y = 100f32;
+        //max_x = length + height * 0.10;
+        max_x = 1000f32;
+        max_y = 600f32;
+        //max_y = height + height * 0.10;
     }
 
     let datetime_now = Utc::now().to_string();
@@ -30,8 +32,8 @@ pub fn draw_graphics(coordinates: Vec<(f32, f32)>, length: f32, height: f32) -> 
         // Set the caption of the chart
         .caption(datetime_now, ("sans-serif", 30).into_font())
         // Set the size of the label region
-        .x_label_area_size(40)
-        .y_label_area_size(40)
+        .x_label_area_size(60)
+        .y_label_area_size(60)
         // Finally attach a coordinate on the drawing area and make a chart context
         .build_cartesian_2d(min_x..max_x, 0f32..max_y)?;
 

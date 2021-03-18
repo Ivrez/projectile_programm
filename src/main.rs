@@ -53,6 +53,8 @@ fn main() {
     });
 
     draw::draw_graphics(coordinates, d, h_max).map_err(|err| println!("{:?}", err)).ok();
+
+    println!("plot saved to graph.png");
 }
 
 fn input_parameter() -> f32{
